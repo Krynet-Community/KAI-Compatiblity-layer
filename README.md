@@ -2,7 +2,7 @@
 
 > **Unofficial community project**
 >
-> Krynet Compat is an independent Java compatibility layer for community-maintained Krynet ports, clients, integrations, and experiments.
+> Krynet Compat is an independent, source-based Java compatibility layer for community-maintained Krynet ports, clients, integrations, experiments, and tooling.
 >
 > This project is **not affiliated with, endorsed by, maintained by, reviewed by, or used by Krynet, LLC or the Krynet Team.**
 
@@ -12,40 +12,90 @@
 
 This repository is **not an official Krynet repository**.
 
-The name "Krynet" is used only to describe the software and ecosystem this community project is built around. Nothing in this repository should be interpreted as an official Krynet release, statement, or endorsement.
+The name "Krynet" is used only to describe the software and ecosystem this community project is built around. Nothing in this repository should be interpreted as an official Krynet release, API, SDK, compatibility guarantee, statement, or endorsement.
 
-Krynet Compat is specifically intended for **Krynet Community** projects and independent developers who want a common Java API across supported platforms.
+Krynet Compat is a **community-maintained project**. Its APIs, implementations, platform support, and compatibility behavior are determined by the community maintainers.
 
-For official Krynet software, documentation, and source code, use the resources below.
+### ⚠️ Not Official Krynet Software
+
+Krynet Compat does **not** represent:
+
+* An official Krynet SDK
+* An official Krynet API
+* An official Krynet client
+* An official Krynet runtime
+* An official Krynet compatibility guarantee
+* An official Krynet-supported development environment
+
+For official Krynet software, documentation, and source code, use the official resources below.
+
+### ⚠️ Review Source Before Importing
+
+Krynet Compat is designed to be included directly in application source code.
+
+**Do not blindly copy or update compatibility-layer code in security-sensitive applications.**
+
+Review changes involving:
+
+* Networking
+* Authentication
+* Cryptography
+* Storage
+* Filesystem access
+* Platform permissions
+* Clipboard access
+* External URLs
+* Platform backends
+
+Compat can expose functionality that affects the security and privacy of the client using it.
+
+### ⚠️ Platform Differences
+
+Windows, Linux, macOS, Android, and iOS have different APIs, permissions, filesystem models, graphics systems, and security restrictions.
+
+Compat provides a common API, but it does **not** make operating systems identical.
+
+Applications should account for platform capabilities and restrictions when required.
+
+---
 
 ## 🔗 Official Krynet Resources
 
-| Resource                 | Link                            |
-| ------------------------ | ------------------------------- |
-| 🌐 Website               | https://krynet.ai               |
-| 📦 Codeberg Organization | https://codeberg.org/Krynet-LLC |
-| 💻 GitLab Organization   | https://gitlab.com/Krynet-Team  |
+| Resource                 | Link                                                               |
+| ------------------------ | ------------------------------------------------------------------ |
+| 🌐 Website               | [https://krynet.ai](https://krynet.ai)                             |
+| 📦 Codeberg Organization | [https://codeberg.org/Krynet-LLC](https://codeberg.org/Krynet-LLC) |
+| 💻 GitLab Organization   | [https://gitlab.com/Krynet-Team](https://gitlab.com/Krynet-Team)   |
 
 > [!NOTE]
-> Krynet Compat is a **community-maintained compatibility layer** and is separate from the official Krynet project.
+> The repositories in this organization are **community-maintained** and separate from the official Krynet project.
 
 ---
 
 ## 🧩 What This Project Is
 
-Krynet Compat provides a common Java API that community Krynet clients can import directly into their source code.
+Krynet Compat provides a common Java API for community-built Krynet software.
 
-The goal is to let a community client use the same compatibility API across:
+The goal is:
 
-* Windows
-* Linux
-* macOS
-* Android
-* iOS
+```text
+Community Client
+       │
+       ▼
+Krynet Compat
+       │
+       ├── Windows
+       ├── Linux
+       ├── macOS
+       ├── Android
+       └── iOS
+```
 
-Compat provides common interfaces for functionality such as:
+Instead of every community client implementing its own platform handling, it can use the Compat API.
 
-* 🪟 Windows and application lifecycle
+Compat provides common APIs for:
+
+* 🪟 Application and window management
 * 🎨 Graphics
 * 🌐 Networking
 * 💾 Storage
@@ -55,7 +105,101 @@ Compat provides common interfaces for functionality such as:
 * ⚙️ Platform detection
 * 🔧 Krynet runtime options
 
-Platform-specific implementations are kept behind the Compat API so community clients do not need to duplicate their application logic for every operating system.
+---
+
+## 🚫 What This Project Is Not
+
+Krynet Compat is **not**:
+
+* An official Krynet product
+* A standalone application
+* An executable
+* A separate runtime
+* A JAR distribution
+* A package manager
+* A server
+* A replacement for the Java runtime
+
+Krynet Compat is intended to be **included as Java source code inside the client using it**.
+
+---
+
+## 📦 Importing Compat Into Your Client
+
+Krynet Compat is designed to be imported directly from its GitHub repository.
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/Krynet-Community/krynet-compat.git
+```
+
+Then include the `compat/` directory in your client source tree.
+
+> [!NOTE]
+> If the repository is hosted under a different GitHub organization or repository name, use the actual repository URL.
+
+### Import the Java Source
+
+The Compat source tree can be included directly in a client:
+
+```text
+your-krynet-client/
+│
+├── src/
+│
+└── compat/
+    └── community/
+        └── krynet/
+            └── compat/
+                ├── Compat.java
+                ├── Krynet.java
+                ├── Platform.java
+                └── ...
+```
+
+Then import the API:
+
+```java
+import community.krynet.compat.*;
+```
+
+Additional APIs can be imported from their respective packages:
+
+```java
+import community.krynet.compat.graphics.*;
+import community.krynet.compat.network.*;
+import community.krynet.compat.storage.*;
+import community.krynet.compat.filesystem.*;
+import community.krynet.compat.clipboard.*;
+import community.krynet.compat.events.*;
+```
+
+### Raw GitHub Source
+
+Individual Java files can also be retrieved directly from GitHub's raw content endpoint:
+
+```text
+https://raw.githubusercontent.com/<organization>/<repository>/main/compat/community/krynet/compat/Compat.java
+```
+
+For production clients, **including the complete Compat source tree is recommended** rather than downloading individual files.
+
+### Pin Your Version
+
+Do not blindly track `main` in production.
+
+Prefer a tagged version:
+
+```text
+v1.0.0
+v1.1.0
+v1.2.0
+```
+
+or a specific commit.
+
+This prevents a client from silently changing compatibility code when the repository is updated.
 
 ---
 
@@ -74,158 +218,141 @@ krynet-compat/
                 │
                 ├── Compat.java
                 ├── Krynet.java
-                ├── Window.java
-                ├── Application.java
                 ├── Platform.java
-                ├── Graphics.java
-                ├── Network.java
-                ├── Storage.java
-                ├── FileSystem.java
-                ├── Clipboard.java
-                ├── Events.java
+                ├── Application.java
+                ├── Window.java
                 │
                 ├── graphics/
-                │   ├── Graphics.java
-                │   ├── Renderer.java
-                │   ├── Surface.java
-                │   └── Image.java
+                │   └── Graphics.java
                 │
                 ├── network/
-                │   ├── Network.java
-                │   ├── Socket.java
-                │   ├── Http.java
-                │   └── WebSocket.java
+                │   └── Network.java
                 │
                 ├── storage/
-                │   ├── Storage.java
-                │   └── SecureStorage.java
+                │   └── Storage.java
                 │
                 ├── filesystem/
-                │   ├── FileSystem.java
-                │   ├── File.java
-                │   └── Directory.java
+                │   └── FileSystem.java
+                │
+                ├── clipboard/
+                │   └── Clipboard.java
                 │
                 ├── events/
-                │   ├── Events.java
-                │   ├── Event.java
-                │   ├── KeyboardEvent.java
-                │   ├── MouseEvent.java
-                │   └── WindowEvent.java
+                │   └── Events.java
                 │
-                └── platform/
-                    ├── PlatformBackend.java
-                    ├── WindowBackend.java
-                    ├── GraphicsBackend.java
-                    ├── NetworkBackend.java
-                    ├── StorageBackend.java
-                    ├── Windows.java
-                    ├── Linux.java
-                    ├── MacOS.java
-                    ├── Android.java
-                    └── IOS.java
+                ├── internal/
+                │   ├── Backend.java
+                │   ├── BackendRegistry.java
+                │   ├── PlatformDetector.java
+                │   └── RuntimeState.java
+                │
+                └── backend/
+                    │
+                    ├── windows/
+                    │   ├── WindowsBackend.java
+                    │   ├── WindowsWindow.java
+                    │   ├── WindowsGraphics.java
+                    │   ├── WindowsNetwork.java
+                    │   ├── WindowsStorage.java
+                    │   └── WindowsClipboard.java
+                    │
+                    ├── linux/
+                    │   ├── LinuxBackend.java
+                    │   ├── LinuxWindow.java
+                    │   ├── LinuxGraphics.java
+                    │   ├── LinuxNetwork.java
+                    │   ├── LinuxStorage.java
+                    │   └── LinuxClipboard.java
+                    │
+                    ├── macos/
+                    │   ├── MacOSBackend.java
+                    │   ├── MacOSWindow.java
+                    │   ├── MacOSGraphics.java
+                    │   ├── MacOSNetwork.java
+                    │   ├── MacOSStorage.java
+                    │   └── MacOSClipboard.java
+                    │
+                    ├── android/
+                    │   ├── AndroidBackend.java
+                    │   ├── AndroidWindow.java
+                    │   ├── AndroidGraphics.java
+                    │   ├── AndroidNetwork.java
+                    │   ├── AndroidStorage.java
+                    │   └── AndroidClipboard.java
+                    │
+                    └── ios/
+                        ├── IOSBackend.java
+                        ├── IOSWindow.java
+                        ├── IOSGraphics.java
+                        ├── IOSNetwork.java
+                        ├── IOSStorage.java
+                        └── IOSClipboard.java
 ```
-
-> [!NOTE]
-> The `compat/` directory is designed to be imported directly into a community client. Krynet Compat does not require the client to depend on a separate executable or runtime.
 
 ---
 
-## 💻 Basic Usage
+## 🏗️ Architecture
 
-A community client can import Compat directly:
-
-```java
-import community.krynet.compat.*;
+```text
+                  Krynet Community Client
+                            │
+                            ▼
+                 community.krynet.compat
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+     Graphics            Network             Storage
+        │                   │                   │
+        └───────────────────┼───────────────────┘
+                            │
+                            ▼
+                     Compat Backend
+                            │
+        ┌──────────┬────────┼────────┬──────────┐
+        ▼          ▼        ▼        ▼          ▼
+     Windows    Linux     macOS   Android     iOS
 ```
 
-A basic Krynet-style application can then look like:
+The application interacts with the public Compat API.
+
+The backend handles platform-specific implementation details.
+
+---
+
+## ☕ Java API
+
+Initialize Compat:
 
 ```java
 import community.krynet.compat.*;
 
-public class KrynetApp extends Window {
-
-    public KrynetApp() {
-        super(
-            TITLEBAR |
-            RESIZABLE |
-            CONTROLS |
-            MAIN
-        );
-    }
-
-    public boolean init() {
-
-        if (!Krynet.setOption(
-            Krynet.SET_GFX_LAYER,
-            Krynet.GFX_SOFTWARE
-        )) {
-            return false;
-        }
-
-        if (!Krynet.setOption(
-            Krynet.SET_SCRIPT_RUNTIME_FEATURES,
-            Krynet.ALLOW_SOCKET_IO
-        )) {
-            return false;
-        }
-
-        if (!loadUrl("https://krynet.ai")) {
-            return false;
-        }
-
-        expand();
-
-        return true;
-    }
-
-    public static void main(String[] args) {
-
-        if (!Compat.initialize()) {
-            return;
-        }
-
-        KrynetApp app = new KrynetApp();
-
-        if (!app.init()) {
-            Compat.shutdown();
-            return;
-        }
-
-        app.runApp();
-
-        Compat.shutdown();
-    }
+if (!Compat.initialize()) {
+    return;
 }
 ```
 
-The same Compat-facing code can be used as the basis for community clients targeting different supported platforms.
+Use platform-neutral APIs:
 
----
+```java
+Clipboard.setText("Hello");
 
-## 🌍 Supported Platforms
+String text = Clipboard.getText();
 
-| Platform   | Compat Support |
-| ---------- | -------------- |
-| 🪟 Windows | Supported      |
-| 🐧 Linux   | Supported      |
-| 🍎 macOS   | Supported      |
-| 🤖 Android | Supported      |
-| 📱 iOS     | Supported      |
+Network.get("https://krynet.ai");
 
-Platform-specific functionality is implemented under:
-
-```text
-compat/community/krynet/compat/platform/
+Storage.set("username", "community-user");
 ```
 
-The public API remains platform-neutral.
+Shut down Compat when the client exits:
+
+```java
+Compat.shutdown();
+```
 
 ---
 
-## 🔧 Compatibility API
-
-### Window
+## 🪟 Window
 
 ```java
 Window window = new Window(
@@ -239,7 +366,9 @@ window.expand();
 window.runApp();
 ```
 
-### Graphics
+---
+
+## 🎨 Graphics
 
 ```java
 Krynet.setOption(
@@ -248,7 +377,7 @@ Krynet.setOption(
 );
 ```
 
-Available graphics modes include:
+Available modes:
 
 ```java
 Krynet.GFX_SOFTWARE
@@ -256,7 +385,11 @@ Krynet.GFX_HARDWARE
 Krynet.GFX_AUTO
 ```
 
-### Networking
+The platform backend determines how the selected mode is implemented.
+
+---
+
+## 🌐 Networking
 
 ```java
 Network.get(
@@ -264,7 +397,13 @@ Network.get(
 );
 ```
 
-### Storage
+Applications should use secure networking where appropriate.
+
+Compat does not bypass TLS, certificate validation, operating-system networking restrictions, or application-level authentication.
+
+---
+
+## 💾 Storage
 
 ```java
 Storage.set(
@@ -276,104 +415,112 @@ String username =
     Storage.get("username");
 ```
 
-### Clipboard
+Do not use ordinary storage for passwords, private keys, tokens, or other sensitive secrets.
+
+Use secure storage where supported.
+
+---
+
+## 📋 Clipboard
 
 ```java
 Clipboard.setText(
     "Hello from Krynet Community"
 );
 
-String text =
+String value =
     Clipboard.getText();
 ```
 
-These APIs are designed to avoid requiring the application itself to directly use platform-specific APIs.
+Clipboard behavior can vary between platforms and may be restricted by the operating system.
 
 ---
 
-## 🏗️ Architecture
+## 🌍 Supported Platforms
 
-```text
-                 Community Krynet Client
-                           │
-                           ▼
-                community.krynet.compat
-                           │
-          ┌────────────────┼────────────────┐
-          │                │                │
-          ▼                ▼                ▼
-       Window          Network          Storage
-          │                │                │
-          └────────────────┼────────────────┘
-                           │
-                           ▼
-                   Platform Backend
-                           │
-        ┌──────────────────┼──────────────────┐
-        │                  │                  │
-        ▼                  ▼                  ▼
-     Windows            Linux              macOS
-        │                  │                  │
-        └──────────────────┼──────────────────┘
-                           │
-                    Android / iOS
-```
-
-The public Compat API should remain independent from platform implementation details.
-
-Platform-specific code belongs in the appropriate backend.
-
----
-
-## 📦 Installation
-
-Krynet Compat is intended to be imported as **source code**.
-
-Copy or include the `compat/` directory in the community client project:
-
-```text
-your-krynet-client/
-│
-├── src/
-│
-└── compat/
-    └── community/
-        └── krynet/
-            └── compat/
-```
-
-Then import the API:
-
-```java
-import community.krynet.compat.*;
-```
-
-No separate Compat executable is required.
-
-No separate Compat runtime is required.
-
-No JAR is required.
-
----
-
-## 🔒 Security
-
-Krynet Compat is intended for community software that may handle private or sensitive communications.
-
-Implementations should:
-
-* Avoid unnecessary telemetry
-* Avoid hidden network communication
-* Use secure networking where appropriate
-* Avoid unnecessary permissions
-* Keep platform-specific storage behavior explicit
-* Avoid silently collecting application or user data
-* Document security-sensitive behavior
-
-Compat itself should not introduce advertising, analytics, tracking, or unrelated network requests.
+| Platform   | Status    |
+| ---------- | --------- |
+| 🪟 Windows | Supported |
+| 🐧 Linux   | Supported |
+| 🍎 macOS   | Supported |
+| 🤖 Android | Supported |
+| 📱 iOS     | Supported |
 
 > [!WARNING]
-> Compat provides compatibility APIs. It does not automatically make an application secure. Community clients remain responsible for their own authentication, encryption, networking, storage, and application security.
+> Supported platforms do not necessarily provide identical functionality. Platform-specific limitations may apply.
+
+---
+
+## 🔐 Security
+
+Krynet Compat can provide access to networking, storage, filesystem, clipboard, graphics, and other platform functionality.
+
+Community clients should:
+
+* Review Compat source before incorporating updates
+* Pin Compat versions for production builds
+* Use HTTPS/TLS for network communication
+* Never hard-code private credentials
+* Avoid storing secrets in ordinary storage
+* Request only required platform permissions
+* Validate untrusted network input
+* Validate filesystem paths
+* Avoid unnecessary clipboard access
+* Avoid unnecessary network requests
+* Review platform backend changes carefully
+
+### Compat Does Not Automatically Secure Your Client
+
+Using Compat does **not** automatically make an application secure.
+
+The client remains responsible for:
+
+* Authentication
+* Authorization
+* Encryption
+* Key management
+* Certificate validation
+* Input validation
+* Secure storage
+* Session management
+* Server-side security
+
+---
+
+## 🔄 API Stability
+
+Compat aims to maintain a stable public API for community clients.
+
+Public APIs are primarily located under:
+
+```text
+community.krynet.compat
+community.krynet.compat.graphics
+community.krynet.compat.network
+community.krynet.compat.storage
+community.krynet.compat.filesystem
+community.krynet.compat.clipboard
+community.krynet.compat.events
+```
+
+The following are implementation details:
+
+```text
+community.krynet.compat.internal
+community.krynet.compat.backend
+```
+
+Community clients should avoid depending directly on internal or backend classes unless platform-specific behavior is intentionally required.
+
+---
+
+## 🚧 Experimental Features
+
+Some APIs may be experimental, incomplete, or subject to change.
+
+A feature being present in the source tree does not necessarily mean it is stable across every supported platform.
+
+Experimental functionality should be clearly documented before being used in production clients.
 
 ---
 
@@ -384,13 +531,17 @@ Contributions are welcome.
 You can contribute by:
 
 * Opening issues
-* Reporting compatibility problems
+* Reporting bugs
+* Reporting platform compatibility problems
 * Improving documentation
 * Submitting pull requests
 * Improving platform backends
-* Adding support for additional platforms
+* Adding platform support
 * Improving API compatibility
+* Reviewing security-sensitive changes
 * Testing community clients
+
+When adding platform-specific functionality, keep it inside the appropriate backend whenever possible.
 
 Please keep contributions focused, readable, documented, and compatible with the existing API.
 
@@ -401,6 +552,16 @@ Please keep contributions focused, readable, documented, and compatible with the
 Krynet Compat is a **Krynet Community project**.
 
 See the `LICENSE` file for the terms that apply to this project.
+
+---
+
+## ⚠️ Final Disclaimer
+
+Krynet Compat is an **independent community project**.
+
+It does not represent the official Krynet project and should not be treated as an official Krynet SDK, API, client, runtime, or compatibility guarantee.
+
+Use community software at your own discretion and review source code before incorporating it into applications that handle sensitive data.
 
 ---
 
