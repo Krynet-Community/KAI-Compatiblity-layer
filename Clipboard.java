@@ -1,12 +1,18 @@
 package community.krynet.compat;
 
-import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
+import community.krynet.compat.platform.PlatformBackend;
 
 public final class Clipboard {
 
     private Clipboard() {}
+
+    public static boolean supported() {
+        Compat.requireInitialized();
+
+        return PlatformBackend.current()
+            .clipboard()
+            .supported();
+    }
 
     public static void setText(String text) {
         Compat.requireInitialized();
@@ -15,36 +21,25 @@ public final class Clipboard {
             text = "";
         }
 
-        java.awt.datatransfer.Clipboard clipboard =
-            Toolkit.getDefaultToolkit()
-                .getSystemClipboard();
-
-        clipboard.setContents(
-            new StringSelection(text),
-            null
-        );
+        PlatformBackend.current()
+            .clipboard()
+            .setText(text);
     }
 
     public static String getText() {
         Compat.requireInitialized();
 
-        try {
-            java.awt.datatransfer.Clipboard clipboard =
-                Toolkit.getDefaultToolkit()
-                    .getSystemClipboard();
+        return PlatformBackend.current()
+            .clipboard()
+            .getText();
+    }
 
-            if (!clipboard.isDataFlavorAvailable(
-                DataFlavor.stringFlavor
-            )) {
-                return null;
-            }
+    public interface Backend {
 
-            return (String) clipboard.getData(
-                DataFlavor.stringFlavor
-            );
+        boolean supported();
 
-        } catch (Exception exception) {
-            return null;
-        }
+        void setText(String text);
+
+        String getText();
     }
 }
